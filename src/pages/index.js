@@ -8,33 +8,35 @@ import {useState} from 'react';
 
 
 export default function Home() {
-  const name = 'Index';
-  const [isShown, setIsShown] = useState(false);
   
+  const Data = document.getElementById("userName");
+
+    //toggle shown components
+    const [isShown, setIsShown] = useState(false);
+
     const handleClick = event => {
-      // 👇️ toggle shown state
-      setIsShown(current => !current);
-  
-      // 👇️ or simply set it to true
-      // setIsShown(true);
+      setIsShown(isShown => !isShown);
     };
 
   
   return (
-  <div className="containerHome">
+  // <div className="containerHome">
+  <>
+  
         <title> Tic Tac Toe game </title>
+
+      {!isShown &&   
       <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            <img
+            {/* <img
               className="mx-auto h-12 w-auto"
               src="../images/logo.png"
               alt="Workflow"
-            />
+            /> */}
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Tic Tac Toe game</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-            Tic-Tac-Toe is played on a 3×3 grid. 
             The player who has the first move is X. 
             The player who plays second is O. 
             The first player to occupy three spaces in a row, column, or diagonal wins. 
@@ -48,7 +50,7 @@ export default function Home() {
                   Your name
                 </label>
                 <input
-                  id="name"
+                  id="userName"
                   name="name"
                   type="name"
                   autoComplete="name"
@@ -63,36 +65,29 @@ export default function Home() {
               <button
               onClick={handleClick}
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                </span>
+                className="group relative w-full flex justify-center py-2 px-4 border 
+                border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {/* <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                </span> */}
                 Start
               </button>
             </div>
           </form>
+          
         </div>
       </div>
-    </>
+    </>  } 
 
-    {/* <div> */}
-      {/* <button onClick={handleClick}>Click</button> */}
+    <div>
+      {isShown && <TicTacToe name={Data.value} />}
+      {/* {isShown && <TicTacToe name={document.getElementById("userName").value} />} */}
 
+    </div>
 
-      {/* 👇️ show component on click */}
-      {/* {isShown && <Box name={name} />}÷ */}
-    {/* </div> */}
-        
-
-
-        {/* <main className="mainHome">
-          <TicTacToe name={name} />
-        </main> */}
-  </div>
+  {/* </div> */}
+  </>
   )
 }
-function Box(name) {
-  return (
-    <TicTacToe name={name} />
-  );
-}
+
 
