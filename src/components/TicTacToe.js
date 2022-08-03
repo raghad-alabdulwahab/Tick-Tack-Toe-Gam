@@ -33,18 +33,19 @@ export default function TicTacToe(props) {
 
   
       ///
-      function playFn(columnIndex, rowIndex, divId) {
+      function playFn(columnIndex, rowIndex) {
         if (cpuTurn) return;
         if (winner) return;
         board[columnIndex][rowIndex] = players?.HUMAN?.SYM;
         setBoard((board) => [...board]);
+        console.log("00 ====> ", columnIndex , rowIndex);
+        let id = columnIndex +''+ rowIndex;
+        document.getElementById(id).style.pointerEvents = 'none';
+        //
         isWinner();
         setCpuTurn(true);
         displayTurn();
         CPU();
-        const r = document.getElementById(divId);
-        r.style.pointerEvents = 'none';
-        console.log("##################Div ID",divId);
 
         // cpuTurn setCpuTurn
       }
@@ -58,14 +59,13 @@ export default function TicTacToe(props) {
         if (move){
           board[move.arrayIndex][move.index] = players?.CPU?.SYM;
           console.log("board"+board);
-          // console.log("move arrayIndex "+move.arrayIndex);
-          // console.log("move index"+move.index);
           setBoard((board) => [...board]);
+          let id = move.arrayIndex +''+ move.index;
+          document.getElementById(id).style.pointerEvents = 'none';
         }
         isWinner();
         setCpuTurn(false);   
         displayTurn();
-
       }
 
 
@@ -194,9 +194,14 @@ export default function TicTacToe(props) {
         setWinner(null);
         setCpuTurn(false);
         setCurrentTurn(`${props.name} turn`);
-        for (let i = 1; i <= 9; i++) {
-         document.getElementById(i).style.pointerEvents = 'auto';
-        }
+        
+        const cells = [...document.querySelectorAll('.rounded-md')]; 
+
+        cells.forEach((cell)=>{
+          console.log("found cell", cell)
+          cell.style.pointerEvents = 'auto';
+        })
+   
       }
 
 
@@ -208,23 +213,23 @@ export default function TicTacToe(props) {
 
       <div id="main" class="grid grid-cols-3 gap-1 justify-evenly"> 
         <div class="rounded-md text-white bg-green-700 w-26 h-12" 
-        id='1' onClick={() => playFn(0, 0, 1)}>{board[0][0]}</div> 
+        id='00' onClick={() => playFn(0, 0, 1)}>{board[0][0]}</div> 
         <div class="rounded-md text-white bg-green-500 w-26 h-12" 
-        id='2' onClick={() => playFn(0, 1, 2)}>{board[0][1]}</div> 
+        id='01' onClick={() => playFn(0, 1, 2)}>{board[0][1]}</div> 
         <div class="rounded-md text-white bg-green-300 w-26 h-12" 
-        id='3' onClick={() => playFn(0, 2, 3)}>{board[0][2]}</div> 
+        id='02' onClick={() => playFn(0, 2, 3)}>{board[0][2]}</div> 
         <div class="rounded-md text-white bg-green-700 w-26 h-12" 
-        id='4' onClick={() => playFn(1, 0, 4)}>{board[1][0]}</div> 
+        id='10' onClick={() => playFn(1, 0, 4)}>{board[1][0]}</div> 
         <div class="rounded-md text-white bg-green-500 w-26 h-12" 
-        id='5' onClick={() => playFn(1, 1, 5)}>{board[1][1]}</div> 
+        id='11' onClick={() => playFn(1, 1, 5)}>{board[1][1]}</div> 
         <div class="rounded-md text-white bg-green-300 w-26 h-12" 
-        id='6' onClick={() => playFn(1, 2, 6)}>{board[1][2]}</div> 
+        id='12' onClick={() => playFn(1, 2, 6)}>{board[1][2]}</div> 
         <div class="rounded-md text-white bg-green-700 w-26 h-12" 
-        id='7' onClick={() => playFn(2, 0, 7)}>{board[2][0]}</div> 
+        id='20' onClick={() => playFn(2, 0, 7)}>{board[2][0]}</div> 
         <div class="rounded-md text-white bg-green-500 w-26 h-12" 
-        id='8' onClick={() => playFn(2, 1, 8)}>{board[2][1]}</div> 
+        id='21' onClick={() => playFn(2, 1, 8)}>{board[2][1]}</div> 
         <div class="rounded-md text-white bg-green-300 w-26 h-12" 
-        id='9' onClick={() => playFn(2, 2, 9)}>{board[2][2]}</div> 
+        id='22' onClick={() => playFn(2, 2, 9)}>{board[2][2]}</div> 
       </div> 
       {winner && <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{displayWinner()}</h2>}
 

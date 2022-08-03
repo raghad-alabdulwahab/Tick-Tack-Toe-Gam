@@ -81,7 +81,6 @@ export default function Home() {
 
     <div>
       {isShown && <TicTacToe name={Data.value} />}
-      {/* {isShown && <TicTacToe name={document.getElementById("userName").value} />} */}
 
     </div>
 
