@@ -18,7 +18,7 @@ export default function Home() {
     const [isShown, setIsShown] = useState(false);
 
     const handleClick = event => {
-      if (document.getElementById("userName").value != '' ){
+      if (document.getElementById("userName").value !== '' ){
         setIsShown(isShown => !isShown);
       }
 
@@ -76,6 +76,7 @@ export default function Home() {
           
         </div>
       </div>
+      
     </>  } 
 
 

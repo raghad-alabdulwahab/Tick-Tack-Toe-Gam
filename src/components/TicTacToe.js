@@ -1,8 +1,6 @@
 import React from 'react'
 import '../css/global.css'
-// import '../css/TicTacToe.css';
-
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 
 export default function TicTacToe(props) {
@@ -27,51 +25,44 @@ export default function TicTacToe(props) {
       ]);
 
       ///
-      // const [cpuTurn, setCpuTurn] = useState(false);
-      let cpuTurn = false;
       const [winner, setWinner] = useState(null);
-  
+      const [current, setCurrent] = useState(props.name)
+
+      //
+
+      
       ///
       function playFn(columnIndex, rowIndex) {
-        displayTurn();
+        if(current == props.name){
+          setCurrent("CPU")
+        }else{
+          setCurrent(props.name)
+        }
+          if ( !winner ){
+            board[columnIndex][rowIndex] = players?.HUMAN?.SYM;
+            setBoard((board) => [...board]);
+            let id = columnIndex +''+ rowIndex;
+            document.getElementById(id).style.pointerEvents = 'none';
+            isWinner();
+            CPU();
+          }
 
-        if (cpuTurn) return;
-        if (winner) return;
-        //
-        board[columnIndex][rowIndex] = players?.HUMAN?.SYM;
-        setBoard((board) => [...board]);
-        let id = columnIndex +''+ rowIndex;
-        document.getElementById(id).style.pointerEvents = 'none';
-        //
-        // displayTurn();
-        // setCpuTurn(true);
-        cpuTurn = true;
-        console.log("setCpuTurn  true == >",cpuTurn);
 
-        isWinner();
-        CPU();
 
       }
 
-
-
       ///
       function CPU() {
-        console.log("CPU == >",cpuTurn);
-
-        if (winner) return;   
+        if (!winner){  
         const move = AI();
         if (move){
           board[move.arrayIndex][move.index] = players?.CPU?.SYM;
           setBoard((board) => [...board]);
-          // setCpuTurn(false);   
-          cpuTurn = false;
-
           let id = move.arrayIndex +''+ move.index;
           document.getElementById(id).style.pointerEvents = 'none';
         }
         isWinner();
-      }
+      }}
 
 
       /// AI 
@@ -95,7 +86,6 @@ export default function TicTacToe(props) {
         // check same row
         for (let index = 0; index < board.length; index++) {
           const row = board[index];
-
           if (row.every((cell) => cell === players?.CPU?.SYM)) {
             setWinner(players?.CPU?.NAME);
             return;
@@ -107,7 +97,6 @@ export default function TicTacToe(props) {
         // check same column
         for (let i = 0; i < 3; i++) {
           const column = board.map((row) => row[i]);
-
           if (column.every((cell) => cell === players?.CPU?.SYM)) {
             setWinner(players?.CPU?.NAME);
             return;
@@ -145,6 +134,7 @@ export default function TicTacToe(props) {
           setWinner(null);
           return;
         }
+
       }
 
 
@@ -160,35 +150,7 @@ export default function TicTacToe(props) {
       
       
       
-      ///
-      function displayTurn() {
-        
-        console.log("displayTurn cpuTurn ==> ",cpuTurn);
-       if (cpuTurn == true ) {
-            console.log("cpu == >",cpuTurn);
-            return "CPU's turn";
-          } 
-          console.log("Raghad  == >",cpuTurn);
-            return `${props.name} turn`;  
-
-
-      //   setTimeout(()=>{
-      //   if (cpuTurn) {
-      //     console.log("cpu");
-      //     return "CPU's turn";
-      //   } 
-      //   console.log("Raghad");
-      //     return `${props.name} turn`;      
-      // }, (1000));
-    
-    }
-
-
-
-
-
-
-
+  
       // Reset everything 
       function restartRound() {
         setBoard([
@@ -197,38 +159,26 @@ export default function TicTacToe(props) {
           ["", "", ""],
         ]);
         setWinner(null);
-        // setCpuTurn(false);
-        cpuTurn = false;
-
-        // setCurrentTurn(`${props.name} turn`);
+        setCurrent(props.name);
         const cells = [...document.querySelectorAll('.rounded-md')]; 
 
         cells.forEach((cell)=>{
           cell.style.pointerEvents = 'auto';
         });
       }
-
-
-            // Reset everything 
-            function Quit() {
-              restartRound();
-              props.onToggleChange(false);
-
-            }
+      // Toggle Change on perent component 
+      function Quit() {
+        restartRound();
+        props.onToggleChange(false);
+      }
 
 
   return <>
-    
-    {/* <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"> 
-    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900"> `${props.name} turn` </h2>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900"> CPU's turn </h2>
-
-    */}
     <div className="flex items-center justify-center ">
 
         <div className="max-w-md w-full space-y-10">
-          {/* {displayTurn()} */}
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{!winner && displayTurn() }   </h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{!winner && current} </h2>
+
         {winner && <h2 className="mt-6 text-center text-3xl font-extrabold text-red-900">{displayWinner()}</h2>}
 
 
@@ -271,5 +221,6 @@ export default function TicTacToe(props) {
             Quit 
         </button>
       </div>
+      
       </div>
   </>;}
