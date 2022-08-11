@@ -174,6 +174,7 @@ export default function TicTacToe(props) {
 
 
   return <>
+
     <div className="flex items-center justify-center ">
 
         <div className="max-w-md w-full space-y-10">
@@ -222,5 +223,5 @@ export default function TicTacToe(props) {
         </button>
       </div>
       
-      </div>
+</div>
   </>;}
